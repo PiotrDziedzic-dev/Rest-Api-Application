@@ -14,5 +14,5 @@ public class Mail {
     private final String mailTo;
     private final String subject;
     private final String message;
-    private final Optional<String> toCc;
+    private final String toCc;
 }
