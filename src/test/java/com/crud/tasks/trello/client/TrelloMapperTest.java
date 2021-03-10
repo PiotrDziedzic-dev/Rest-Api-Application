@@ -95,6 +95,8 @@ public class TrelloMapperTest {
         //Then
         Assertions.assertEquals(trelloCardDto.getName(),"First");
         Assertions.assertEquals(trelloCardDto.getDescription(),"ABC");
+        Assertions.assertEquals(trelloCardDto.getPos(),"XYZ");
+        Assertions.assertEquals(trelloCardDto.getListId(),"1");
     }
     @Test
     public void mapperToCart() {
@@ -108,5 +110,7 @@ public class TrelloMapperTest {
         //Then
         Assertions.assertEquals(trelloCard.getName(),"First");
         Assertions.assertEquals(trelloCard.getDescription(),"ABC");
+        Assertions.assertEquals(trelloCard.getListId(),"1");
+        Assertions.assertEquals(trelloCard.getPos(),"XYZ");
     }
 }
