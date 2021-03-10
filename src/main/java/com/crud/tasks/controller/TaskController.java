@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/task")
 @CrossOrigin(origins = "*")
-
 public class TaskController {
 
     private final DbService service;
