@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 import static org.mockito.Mockito.when;
 
@@ -66,6 +68,7 @@ class TaskControllerTest {
         TaskDto taskDto = new TaskDto(1L,"Random title","Random content");
         Gson gson = new Gson();
         String jsonContent = gson.toJson(taskDto);
+        when(dbService.saveTask()).thenReturn(taskDto);
 
         //When & Then
         mockMvc
@@ -73,7 +76,8 @@ class TaskControllerTest {
                         .get("/v1/task/createTask")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
-                        .content(jsonContent))
+                        .content(jsonContent));
+        Mockito.verify(dbService,Mockito.times(1)).saveTask(taskDto);
 
     }
 
