@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
@@ -39,12 +40,12 @@ class TaskControllerTest {
     @MockBean
     private TaskMapper taskMapper;
 
-    /*
     @Test
-    public void shouldFetchListOfTasks() throws Exception {
+    public void getTaskListTest() throws Exception {
 
         //Given
         List<Task> taskList = List.of(new Task(1L,"First title","First Description"));
+        List<TaskDto> taskDtoList = List.of(new TaskDto(1L,"First title","First Description"));
         when(dbService.getAllTasks()).thenReturn(taskList);
         when(taskMapper.mapToTaskDtoList(taskList)).thenReturn(taskDtoList);
 
@@ -54,22 +55,50 @@ class TaskControllerTest {
                 .perform(MockMvcRequestBuilders
                 .get("/v1/task/getTasks")
                 .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
     }
-
-        */
     @Test
-    public void shouldFetchTask() throws Exception {
+    public void deleteTaskTest() throws Exception {
+
+        //Given
+        Task task = new Task(99L,"First title","First Description");
+        dbService.saveTask(task);
+
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .delete("/v1/task/deleteTask")
+                        .param("taskId","99L"))
+                        .andExpect(MockMvcResultMatchers.status().isOk());
+        Mockito.verify(dbService).deleteTask(99L);
+
+    }
+
+
+    @Test
+    public void getTaskTest() throws Exception {
 
         //Given
         Task task = new Task(1L,"First title","First Description");
         TaskDto taskDto = new TaskDto(1L,"First title","First Description");
         when(dbService.getTask(1L)).thenReturn(Optional.of(task));
         when(taskMapper.mapToTaskDto(task)).thenReturn(taskDto);
+
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get("/v1/task/getTask")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("taskId","1L"))
+                        .andExpect(MockMvcResultMatchers.status().isOk())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is("1L")))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("First tittle")))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.is("First Description")));
     }
 
     @Test
-    public void shouldCreateTask() throws Exception {
+    public void createTaskTest() throws Exception {
 
         //Given
         Task task = new Task(1L,"First title","First Description");
@@ -89,6 +118,25 @@ class TaskControllerTest {
                         .andExpect(MockMvcResultMatchers.status().isOk());
         Mockito.verify(dbService).saveTask(task);
 
+
+    }
+    @Test
+    public void updateTaskTest() throws Exception {
+
+        //Given
+        Task task = new Task(1L,"First title","First Description");
+        TaskDto taskDto = new TaskDto(1L,"First title","First Description");
+        when(taskMapper.mapToTask(any())).thenReturn(task);
+        when(dbService.saveTask(task)).thenReturn(task);
+        when(taskMapper.mapToTaskDto(task)).thenReturn(taskDto);
+
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .put("/v1/task/updateTask")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8"))
+                        .andExpect(MockMvcResultMatchers.status().isOk());
+        Mockito.verify(dbService).saveTask(task);
 
     }
 

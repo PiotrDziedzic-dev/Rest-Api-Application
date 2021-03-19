@@ -26,6 +26,7 @@ class SimpleEmailServiceTest {
 
     @Test
     public void shouldSendEmail() {
+
         //Given
         Mail mail = Mail.builder()
                 .mailTo("test@test.com")
