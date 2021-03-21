@@ -69,7 +69,7 @@ class TaskControllerTest {
         mockMvc
                 .perform(MockMvcRequestBuilders
                         .delete("/v1/task/deleteTask")
-                        .param("taskId","99L"))
+                        .param("taskId","99"))
                         .andExpect(MockMvcResultMatchers.status().isOk());
         Mockito.verify(dbService).deleteTask(99L);
 
@@ -90,10 +90,10 @@ class TaskControllerTest {
                 .perform(MockMvcRequestBuilders
                         .get("/v1/task/getTask")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("taskId","1L"))
+                        .param("taskId","1"))
                         .andExpect(MockMvcResultMatchers.status().isOk())
-                        .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is("1L")))
-                        .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("First tittle")))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("First title")))
                         .andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.is("First Description")));
     }
 
