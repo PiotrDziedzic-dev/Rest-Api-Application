@@ -53,7 +53,7 @@ class TaskControllerTest {
 
         mockMvc
                 .perform(MockMvcRequestBuilders
-                .get("/v1/task/getTasks")
+                .get("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
@@ -68,8 +68,8 @@ class TaskControllerTest {
         //When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .delete("/v1/task/deleteTask")
-                        .param("taskId","99"))
+                        .delete("/v1/tasks/{taskId}")
+                        .param("{taskId}","99"))
                         .andExpect(MockMvcResultMatchers.status().isOk());
         Mockito.verify(dbService).deleteTask(99L);
 
@@ -88,7 +88,7 @@ class TaskControllerTest {
         //When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/v1/task/getTask")
+                        .get("/v1/tasks/{taskId}")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("taskId","1"))
                         .andExpect(MockMvcResultMatchers.status().isOk())
@@ -111,7 +111,7 @@ class TaskControllerTest {
         //When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/v1/task/createTask")
+                        .post("/v1/tasks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
                         .content(jsonContent))
@@ -132,7 +132,7 @@ class TaskControllerTest {
 
         mockMvc
                 .perform(MockMvcRequestBuilders
-                        .put("/v1/task/updateTask")
+                        .put("/v1/tasks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8"))
                         .andExpect(MockMvcResultMatchers.status().isOk());
