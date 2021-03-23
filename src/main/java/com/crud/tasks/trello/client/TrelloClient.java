@@ -52,20 +52,6 @@ public class TrelloClient {
         }
     }
 
-    private URI createUrl() {
-
-        URI url = UriComponentsBuilder.fromHttpUrl(trelloConfig.getTrelloApiEndpoint() + "/members/piotrdziedzic8/boards")
-                .queryParam("key", trelloConfig.getTrelloAppKey())
-                .queryParam("token", trelloConfig.getTrelloToken())
-                .queryParam("fields", "name,id")
-                .queryParam("lists","all")
-                .build()
-                .encode()
-                .toUri();
-
-
-        return url;
-    }
     public CreatedTrelloCardDto createNewCard(TrelloCardDto trelloCardDto) {
         URI url = UriComponentsBuilder.fromHttpUrl(trelloConfig.getTrelloApiEndpoint() + "/cards")
                 .queryParam("key", trelloConfig.getTrelloAppKey())
