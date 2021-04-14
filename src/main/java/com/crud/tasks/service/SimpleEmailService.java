@@ -19,7 +19,8 @@ public class SimpleEmailService {
     @Autowired
     private MailCreatorService mailCreatorService;
 
-    private final JavaMailSender javaMailSender;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     public void send(final Mail mail) {
         log.info("Starting email preparation...");

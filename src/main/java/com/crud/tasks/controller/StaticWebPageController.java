@@ -8,6 +8,7 @@ import java.util.Map;
 @Controller
 public class StaticWebPageController {
 
+   /*
     @RequestMapping("/")
     public String index(Map<String, Object> model) {
         model.put("variable", "My Thymeleaf variable");
@@ -22,5 +23,7 @@ public class StaticWebPageController {
         model.put("equals","=");
         return "index";
     }
+
+    */
 
 }

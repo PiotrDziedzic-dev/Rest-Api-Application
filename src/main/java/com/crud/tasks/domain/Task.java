@@ -15,6 +15,7 @@ import javax.persistence.Id;
 @Getter
 @Entity(name = "tasks")
 public class Task {
+
     @Id
     @GeneratedValue
     private Long id;
